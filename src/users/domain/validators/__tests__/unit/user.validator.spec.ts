@@ -117,6 +117,24 @@ describe('UserValidator unit tests', () => {
                 'password must be shorter than or equal to 100 characters'
             ])
         })
+    })
+
+    describe('Name field', () => {
+
+        it('Invalidation cases for createdAt field', () => {
+            const props = UserDataBuilder({})
+            let isValid = sut.validate({...props, createdAt: 1 as any})
+            expect(isValid).toBeFalsy()
+            expect(sut.errors['createdAt']).toStrictEqual([
+                'createdAt must be a Date instance'
+            ])
+
+            isValid = sut.validate({...props, createdAt: 'test' as any})
+            expect(isValid).toBeFalsy()
+            expect(sut.errors['createdAt']).toStrictEqual([
+                'createdAt must be a Date instance'
+            ])
+        })
 
     })
 })
