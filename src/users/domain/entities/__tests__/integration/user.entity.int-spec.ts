@@ -25,8 +25,41 @@ describe('UserEntity integration tests', () => {
                 name: 'a'.repeat(256)
             }
             expect(() => new UserEntity(props)).toThrowError(EntityValidationError)
+
+            props = {
+                ...UserDataBuilder({}),
+                name: 10 as any
+            }
+            expect(() => new UserEntity(props)).toThrowError(EntityValidationError)
         })
 
+
+        it ('Should throw an error when creating an user with invalid email', () => {
+
+            let props: UserProps = {
+                ...UserDataBuilder({}),
+                email: null
+            }
+            expect(() => new UserEntity(props)).toThrowError(EntityValidationError)
+
+            props = {
+                ...UserDataBuilder({}),
+                email: ''
+            }
+            expect(() => new UserEntity(props)).toThrowError(EntityValidationError)
+
+            props = {
+                ...UserDataBuilder({}),
+                email: 'a'.repeat(256)
+            }
+            expect(() => new UserEntity(props)).toThrowError(EntityValidationError)
+
+            props = {
+                ...UserDataBuilder({}),
+                email: 10 as any
+            }
+            expect(() => new UserEntity(props)).toThrowError(EntityValidationError)
+        })
     })
 
 })
