@@ -3,7 +3,7 @@ import { BadRequestError } from "../errors/bad-request-error"
 import { UserEntity } from "@/users/domain/entities/user.entity"
 import { HashProvider } from "@/shared/application/providers/hash-provider"
 
-export namespace SignupUsecase{
+export namespace SignupUseCase{
     export type Input = {
         name: string
         email: string
@@ -18,7 +18,7 @@ export namespace SignupUsecase{
         createdAt: Date
     }
 
-    export class Usecase {
+    export class UseCase {
 
         constructor(
             private userRepository: UserRepository.Repository,
