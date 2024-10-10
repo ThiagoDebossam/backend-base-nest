@@ -28,10 +28,10 @@ export abstract class InMemorySearchableRepository<E extends Entity>
     protected async applySort (items: E[], sort: string | null, sortDir: string | null): Promise<E[]> {
         if (!sort || !this.sortableFields.includes(sort)) return items
         return [...items].sort((a, b) => {
-            if (a.props['sort'] < b.props[sort]) {
+            if (a.props[sort] < b.props[sort]) {
                 return sortDir === 'asc' ? -1 : 1
             }
-            if (a.props['sort'] > b.props[sort]) {
+            if (a.props[sort] > b.props[sort]) {
                 return sortDir === 'desc' ? -1 : 1
             }
             return 0

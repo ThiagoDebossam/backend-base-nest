@@ -21,4 +21,8 @@ export class UserInMemoryRepository extends InMemorySearchableRepository<UserEnt
         }
     }
 
+    protected async applyFilter(items: UserEntity[], filter: string | null): Promise<UserEntity[]> {
+        throw new Error('Fazer')
+    }
+
 }
