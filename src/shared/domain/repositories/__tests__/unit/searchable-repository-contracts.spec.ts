@@ -1,4 +1,4 @@
-import { SearchParams, SearchResult } from "../../searchable-repository-contracts "
+import { SearchParams, SearchResult } from "../../searchable-repository-contracts"
 
 describe('Searchable repository unit tests', () => {
     describe('SearchParams tests', () => {

@@ -1,4 +1,4 @@
-import { SearchableRepositoryInterface, SearchParams as DefaultSearchParams, SearchResult as DefaultSearchResult } from "@/shared/domain/repositories/searchable-repository-contracts "
+import { SearchableRepositoryInterface, SearchParams as DefaultSearchParams, SearchResult as DefaultSearchResult } from "@/shared/domain/repositories/searchable-repository-contracts"
 import { UserEntity } from "../entities/user.entity"
 
 export namespace UserRepository {

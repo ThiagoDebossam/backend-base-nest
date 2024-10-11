@@ -1,6 +1,6 @@
 import { Entity } from "@/shared/domain/entities/entity"
 import { InMemorySearchableRepository } from "../../in-memory-searchable.repository"
-import { SearchParams, SearchResult } from "../../searchable-repository-contracts "
+import { SearchParams, SearchResult } from "../../searchable-repository-contracts"
 
 type StubEntityProps = {
     name: string
