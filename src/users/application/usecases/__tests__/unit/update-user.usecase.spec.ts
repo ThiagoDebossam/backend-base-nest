@@ -1,34 +1,39 @@
 import { UserInMemoryRepository } from "@/users/infrastructure/database/in-memory/repositories/user-in-memory.repository"
-import { GetUserUseCase } from "../../getuser.usecase"
 import { NotFoundError } from "@/shared/domain/errors/not-found-error"
 import { UserEntity } from "@/users/domain/entities/user.entity"
 import { UserDataBuilder } from "@/users/domain/testing/helpers/user-data-builder"
+import { UpdateUserUseCase } from "../../update-user.usecase"
+import { BadRequestError } from "@/shared/application/errors/bad-request-error"
 
-describe ('GetUserUseCase unit tests', () => {
-    let sut: GetUserUseCase.UseCase
+describe ('UpdateUserUseCase unit tests', () => {
+    let sut: UpdateUserUseCase.UseCase
     let repository: UserInMemoryRepository
 
     beforeEach(() => {
         repository = new UserInMemoryRepository()
-        sut = new GetUserUseCase.UseCase(repository)
+        sut = new UpdateUserUseCase.UseCase(repository)
     })
 
     it('Should throws error when entity not found', async () => {
-        await expect(() => sut.execute({id: 'fake'})).rejects.toBeInstanceOf(NotFoundError)
+        await expect(() => sut.execute({id: 'fake', name: 'fake'})).rejects.toBeInstanceOf(NotFoundError)
     })
 
-    it('Should be able to get user profile', async () => {
-        const spyFinById = jest.spyOn(repository, 'findById')
+    it('Should throws error when entity name not provided', async () => {
+        await expect(() => sut.execute({id: 'fake', name: ''})).rejects.toBeInstanceOf(BadRequestError)
+    })
+
+    it('Should update a user', async () => {
+        const spyUpdate = jest.spyOn(repository, 'update')
         const items = [
             new UserEntity(UserDataBuilder({}))
         ]
         repository.items = items
 
-        const result = await sut.execute({id: items[0].id})
-        expect(spyFinById).toHaveBeenCalledTimes(1)
+        const result = await sut.execute({id: items[0].id, name: 'New name'})
+        expect(spyUpdate).toHaveBeenCalledTimes(1)
         expect(result).toMatchObject({
             id: items[0].id,
-            name: items[0].name,
+            name: 'New name',
             email: items[0].email,
             password: items[0].password,
             createdAt: items[0].createdAt,
