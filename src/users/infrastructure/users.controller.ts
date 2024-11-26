@@ -23,6 +23,8 @@ import { DeleteUserUseCase } from '../application/usecases/delete-user.usecase'
 import { SignInDto } from './dtos/sign-in.dto'
 import { ListUsersDto } from './dtos/list-users.dto'
 import { UpdatePasswordDto } from './dtos/update-password.dto'
+import { UserOutput } from '../application/dtos/user-output'
+import { UserPresenter } from './presenters/user.presenter'
 
 @Controller('users')
 export class UsersController {
@@ -47,15 +49,21 @@ export class UsersController {
     @Inject(DeleteUserUseCase.UseCase)
     private deleteUserUseCase: DeleteUserUseCase.UseCase
 
+    static userToResponse(output: UserOutput): UserPresenter {
+        return new UserPresenter(output)
+    }
+
     @Post()
     async create(@Body() signUpDto: SignUpDto) {
-        return this.signUpUseCase.execute(signUpDto)
+        const output = await this.signUpUseCase.execute(signUpDto)
+        return UsersController.userToResponse(output)
     }
 
     @HttpCode(200)
     @Post('login')
     async login(@Body() signInDto: SignInDto) {
-        return this.signInUseCase.execute(signInDto)
+        const output = await this.signInUseCase.execute(signInDto)
+        return UsersController.userToResponse(output)
     }
 
     @Get()
@@ -65,17 +73,20 @@ export class UsersController {
 
     @Get(':id')
     async findOne(@Param('id') id: string) {
-        return this.getUserUseCase.execute({ id })
+        const output = await this.getUserUseCase.execute({ id })
+        return UsersController.userToResponse(output)
     }
 
     @Put(':id')
     async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-        return this.updateUserUseCase.execute({ id, ...updateUserDto })
+        const output = await this.updateUserUseCase.execute({ id, ...updateUserDto })
+        return UsersController.userToResponse(output)
     }
 
     @Patch(':id')
     async updatePassword(@Param('id') id: string, @Body() updatePasswordDto: UpdatePasswordDto) {
-        return this.updatePasswordUseCase.execute({ id, ...updatePasswordDto })
+        const output = await this.updatePasswordUseCase.execute({ id, ...updatePasswordDto })
+        return UsersController.userToResponse(output)
     }
 
     @HttpCode(204)
