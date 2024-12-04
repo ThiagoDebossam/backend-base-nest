@@ -29,6 +29,7 @@
 ## Project setup
 
 ```bash
+$ nvm use 18.0.0
 $ npm install
 ```
 
